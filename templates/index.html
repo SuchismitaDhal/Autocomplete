@@ -1,0 +1,26 @@
+{% extends "layout.html" %}
+
+{% block body %}
+<form action="/search" method="get">
+    <input type="text" autocomplete="off" autofocus name="q" placeholder="Query">
+</form>
+
+<ul></ul>
+
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script>
+
+    let input = document.querySelector('input');
+    input.onkeyup = function () {
+        document.querySelector('ul').innerHTML = '';
+        /*.get() load data from the server using a HTTP GET request and performs operation on it.
+            accepts 4 arguments: url to request, data to send to server(in the form of dictinory),
+            function to run if the request succeeds(the argument passed to this function is the result of the request),
+            data type of the expected response*/
+        $.get('/search?q=' + input.value, function (data) {
+            for (word of data)
+                document.querySelector('ul').innerHTML += '<li>' + word + '</li>';
+        });
+    };
+</script>
+{% endblock %}
